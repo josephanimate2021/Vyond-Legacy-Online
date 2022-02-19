@@ -1,6 +1,6 @@
 :: Important stuff
 @echo off && cls
-title GoAnimate Wrapper
+title Vyond Legacy Online
 
 ::::::::::::::::::::
 :: Initialization ::
@@ -10,13 +10,13 @@ title GoAnimate Wrapper
 TASKKILL /IM node.exe /F 2>nul
 cls
 
-:::::::::::::::::::::::::::::
-:: Start GoAnimate Wrapper ::
-:::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::::
+:: Start Vyond Legacy Online ::
+:::::::::::::::::::::::::::::::
 
 :: Check for installation
 if exist notinstalled (
-	echo GoAnimate Wrapper is not installed! Installing...
+	echo Vyond Legacy Online is not installed! Installing...
 	call npm install
 	ren "notinstalled" "installed"
 	cls
@@ -27,6 +27,7 @@ if exist notinstalled (
 
 :: Run npm start
 :start
-echo GoAnimate Wrapper is now starting...
-echo Please navigate to http://localhost on your browser.
-npm start
+echo Vyond Legacy Online is now starting...
+start /MIN open_nodejs.bat
+PING -n 16 127.0.0.1>nul
+start http://localhost
