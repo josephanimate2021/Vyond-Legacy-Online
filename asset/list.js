@@ -5,6 +5,7 @@ const nodezip = require("node-zip");
 const base = Buffer.alloc(1, 0);
 const asset = require("./main");
 const http = require("http");
+const starter = require("../starter/main");
 
 async function listAssets(data, makeZip) {
 	var xmlString;
@@ -37,7 +38,7 @@ async function listAssets(data, makeZip) {
 			break;
 		}	
 		case "movie": {
-			var files = starter.list()
+			var files = starter.list();
 			xmlString = `${header}<ugc more="0">${files
 				.map(
 					(v) =>
