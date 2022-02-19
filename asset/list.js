@@ -14,7 +14,7 @@ async function listAssets(data, makeZip) {
 			xmlString = `${header}<ugc more="0">${chars
 				.map(
 					(v) =>
-						`<char id="${v.id}" name="Untitled" cc_theme_id="${v.theme}" thumbnail_url="http://localhost/char_thumbs/${v.id}.png" copyable="Y"><tags/></char>`
+						`<char id="${v.id}" name="Untitled" cc_theme_id="${v.theme}" thumbnail_url="/char_thumbs/${v.id}.png" copyable="Y"><tags/></char>`
 				)
 				.join("")}</ugc>`;
 			break;
@@ -37,11 +37,11 @@ async function listAssets(data, makeZip) {
 			break;
 		}	
 		case "movie": {
-			var files = asset.list(data.movieId, "starter");
+			var files = starter.list()
 			xmlString = `${header}<ugc more="0">${files
 				.map(
 					(v) =>
-						`<movie id="${v.id}" enc_asset_id="${v.id}" path="/_SAVED/${v.id}" numScene="1" title="${v.name}" thumbnail_url="/movie_thumbs/${v.id}.png"><tags></tags></movie>`
+						`<movie id="${v.id}" enc_asset_id="${v.id}" path="/_SAVED/${v.id}" numScene="1" title="${v.name}" thumbnail_url="/starter_thumbs/${v.id}.png"><tags></tags></movie>`
 				)
 				.join("")}</ugc>`;
 			break;
