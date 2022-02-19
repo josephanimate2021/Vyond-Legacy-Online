@@ -15,12 +15,11 @@ cls
 :::::::::::::::::::::::::::::::
 
 :: Check for installation
-if exist notinstalled (
-	echo Vyond Legacy Online is not installed! Installing...
-	call npm install
-	ren "notinstalled" "installed"
-	cls
-	goto start
+for /f "delims=" %%i in ('npm -v 2^>nul') do set output=%%i
+IF "!output!" EQU "" (
+	echo Node.js could not be found. please try again later
+	pause
+	exit
 ) else (
 	goto start
 )
@@ -29,5 +28,5 @@ if exist notinstalled (
 :start
 echo Vyond Legacy Online is now starting...
 start /MIN open_nodejs.bat
-PING -n 16 127.0.0.1>nul
+PING -n 6 127.0.0.1>nul
 start http://localhost
