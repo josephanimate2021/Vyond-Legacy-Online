@@ -24,7 +24,7 @@ module.exports = function (req, res, url) {
 						mode = "soundeffect";
 						break;
 					case "mu":
-						mode = "music";
+						mode = "bgmusic";
 						break;
 				}
 
