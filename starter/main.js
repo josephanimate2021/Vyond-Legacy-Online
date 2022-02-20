@@ -27,7 +27,7 @@ module.exports = {
 			});
 		});
 	},
-	loadThumb(movieId) {
+	thumb(movieId) {
 		return new Promise(async (res, rej) => {
 			if (!movieId.startsWith("s-")) return;
 			const n = Number.parseInt(movieId.substr(2));
