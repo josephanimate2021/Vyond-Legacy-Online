@@ -1,30 +1,14 @@
-const starter = require("./main");
-const http = require("http");
-
-/**
- * @param {http.IncomingMessage} req
- * @param {http.ServerResponse} res
- * @param {import("url").UrlWithParsedQuery} url
- * @returns {boolean}
- */
+// i needed that boost. so credits to David's TV Studio
+const starter = require('./main');
 module.exports = function (req, res, url) {
-	var path = url.pathname;
-	if (req.method != "GET" || !path.startsWith("/starter_thumbs")) return;
-	var beg = path.lastIndexOf("/") + 1;
-	var end = path.lastIndexOf(".");
-	var ext = path.substr(end + 1).toLowerCase();
-	if (ext != "png") return;
-
-	starter
-		.loadThumb(path.substr(beg, end - beg))
-		.then((v) => {
-			res.setHeader("Content-Type", "image/png");
-			res.statusCode = 200;
-			res.end(v);
+	if (req.method != 'GET' || !url.path.startsWith('/starter_thumbs')) return;
+	starter.thumb(url.path.substr(url.path.lastIndexOf('/') + 1))
+		.then(v => {
+			res.setHeader('Content-Type', 'image/png');
+			res.statusCode = 200; res.end(v);
 		})
 		.catch(() => {
-			res.statusCode = 400;
-			res.end();
+			res.statusCode = 400; res.end();
 		});
 	return true;
-};
+}
