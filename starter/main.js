@@ -17,6 +17,8 @@ module.exports = {
 		return new Promise(async (res, rej) => {
 			var zip = nodezip.unzip(starterZip);
                         var sId = fUtil.getNextFileId("starter-", ".xml");
+			const thumbFile = fUtil.getFileIndex("starter-", ".png", sId);
+			fs.writeFileSync(thumbFile, thumb);
 			var path = fUtil.getFileIndex("starter-", ".xml", sId);
 			var writeStream = fs.createWriteStream(path);
 			parse.unpackMovie(zip, thumb).then((data) => {
