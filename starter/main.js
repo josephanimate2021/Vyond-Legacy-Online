@@ -14,18 +14,17 @@ module.exports = {
 	 * @returns {Promise<string>}
 	 */
 	save(starterZip, thumb) {
-
 		return new Promise(async (res, rej) => {
 			var zip = nodezip.unzip(starterZip);
                         var sId = fUtil.getNextFileId("starter-", ".xml");
-					var path = fUtil.getFileIndex("starter-", ".xml", sId);
-					var writeStream = fs.createWriteStream(path);
-					parse.unpackMovie(zip, thumb).then((data) => {
-						writeStream.write(data, () => {
-							writeStream.close();
-                                                        res("s-" + sId);
-						});
-					});
+			var path = fUtil.getFileIndex("starter-", ".xml", sId);
+			var writeStream = fs.createWriteStream(path);
+			parse.unpackMovie(zip, thumb).then((data) => {
+				writeStream.write(data, () => {
+					writeStream.close();
+					res("s-" + sId);
+				});
+			});
 		});
 	},
 	loadThumb(movieId) {
