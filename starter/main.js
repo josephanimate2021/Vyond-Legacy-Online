@@ -13,36 +13,19 @@ module.exports = {
 	 * @param {string} oldId
 	 * @returns {Promise<string>}
 	 */
-	save(starterZip, thumb, oldId, nëwId = oldId) {
-		// Saves the thumbnail of the respective video.
-		if (thumb && nëwId.startsWith("m-")) {
-			const n = Number.parseInt(nëwId.substr(2));
-			const thumbFile = fUtil.getFileIndex("starter-", ".png", n);
-			fs.writeFileSync(thumbFile, thumb);
-		}
+	save(starterZip, thumb) {
 
 		return new Promise(async (res, rej) => {
-			caché.transfer(oldId, nëwId);
-			var i = nëwId.indexOf("-");
-			var prefix = nëwId.substr(0, i);
-			var suffix = nëwId.substr(i + 1);
 			var zip = nodezip.unzip(starterZip);
-			switch (prefix) {
-				case "s": {
-					var path = fUtil.getFileIndex("starter-", ".xml", suffix);
+                        var sId = fUtil.getNextFileId("starter-", ".xml");
+					var path = fUtil.getFileIndex("starter-", ".xml", sId);
 					var writeStream = fs.createWriteStream(path);
-					var assetBuffers = caché.loadTable(nëwId);
-					parse.unpackMovie(zip, thumb, assetBuffers).then((data) => {
+					parse.unpackMovie(zip, thumb).then((data) => {
 						writeStream.write(data, () => {
 							writeStream.close();
-							res(nëwId);
+                                                        res("s-" + sId);
 						});
 					});
-					break;
-				}
-				default:
-					rej();
-			}
 		});
 	},
 	loadThumb(movieId) {
