@@ -26,7 +26,7 @@ IF "!output!" EQU "" (
 	PING -n 6 127.0.0.1>nul
 	if exist installed (
 	goto start
-	) else ( goto install
+	) else ( goto install )
 )
 
 :: Install Vyond Legacy Online
