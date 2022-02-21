@@ -33,6 +33,8 @@ IF "!output!" EQU "" (
 :install
 if exist notinstalled (
 echo Vyond Legacy Online Is Not Installed! Installing...
+npm install
+ren notinstalled installed
 goto start ) else ( goto start )
 
 :: Run npm start
