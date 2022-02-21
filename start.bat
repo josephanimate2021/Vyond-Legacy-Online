@@ -24,10 +24,13 @@ IF "!output!" EQU "" (
 ) else (
         echo Node.js has been detected. Processing Bootup...
 	PING -n 6 127.0.0.1>nul
+	if exist installed (
 	goto start
+	) else ( goto install
 )
 
 :: Install Vyond Legacy Online
+:install
 if exist notinstalled (
 echo Vyond Legacy Online Is Not Installed! Installing...
 goto start ) else ( goto start )
