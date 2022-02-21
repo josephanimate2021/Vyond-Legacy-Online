@@ -27,6 +27,11 @@ IF "!output!" EQU "" (
 	goto start
 )
 
+:: Install Vyond Legacy Online
+if exist notinstalled (
+echo Vyond Legacy Online Is Not Installed! Installing...
+goto start ) else ( goto start )
+
 :: Run npm start
 :start
 cls
