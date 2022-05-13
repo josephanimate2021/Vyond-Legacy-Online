@@ -66,7 +66,7 @@ const functions = [
 module.exports = http.createServer((req, res) => {
 	const parsedUrl = url.parse(req.url, true);
 	if (req.url == "http://localhost:4343/") {
-		location.href process.env.LOCALHOST_LOCATION;
+		location.href = process.env.LOCALHOST_LOCATION;
 	}
 	const found = functions.find(f => f(req, res, parsedUrl));
 	if (!found) { res.statusCode = 404; res.end(); }
