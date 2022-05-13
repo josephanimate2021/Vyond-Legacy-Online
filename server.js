@@ -65,9 +65,11 @@ const functions = [
 // Creates an HTTP server
 module.exports = http.createServer((req, res) => {
 	const parsedUrl = url.parse(req.url, true);
+	/* this would be used. but i don't think that this will work. it will just keep redirecting to the same page on a single click.
 	if (req.url == "http://localhost:4343/") {
 		location.href = process.env.LOCALHOST_LOCATION;
 	}
+	*/
 	const found = functions.find(f => f(req, res, parsedUrl));
 	if (!found) { res.statusCode = 404; res.end(); }
 }).listen(env.PORT || env.SERVER_PORT, console.log);
