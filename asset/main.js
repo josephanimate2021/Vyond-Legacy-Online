@@ -71,7 +71,7 @@ module.exports = {
 			var xmlString, files;
 			switch (data.type) {
 				case 'char': {
-					const chars = cc(data.themeId);
+					const chars = await this.cc(data.themeId);
 					xmlString = `${header}<ugc more="0">${chars.map(v => `<char id="${v.id}" name="Untitled" cc_theme_id="${
 								v.theme}" thumbnail_url="char_default.png" copyable="Y"><tags/></char>`).join('')}</ugc>`;
 					break;
@@ -97,7 +97,7 @@ module.exports = {
 					case 'bg': {
 						for (let c = 0; c < files.length; c++) {
 							const file = files[c];
-							fUtil.addToZip(nodezip.create(), `bg/${file.id}`, loadLocal(file.id));
+							fUtil.addToZip(nodezip.create(), `bg/${file.id}`, this.loadLocal(file.id));
 						}
 						break;
 					}
