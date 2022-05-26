@@ -1,4 +1,4 @@
-const movie = require('../main');
+const movie = require('../movie/main');
 const starter = require('./main');
 module.exports = function (req, res, url) {
 	if (req.method != 'GET' || url.path != '/starterList') return;
