@@ -20,7 +20,6 @@ const lvp = require('./static/pagelvp');
 const thm = require('./static/pagethemelist');
 const str = require('./starter/save');
 const stt = require('./starter/thmb');
-const svm = require('./starter/meta');
 const svt = require('./starter/list');
 const stu = require('./starter/upload');
 const mvl = require('./movie/load');
@@ -65,6 +64,7 @@ const functions = [
 	stc,
 	lvp,
         stu,
+	svt,
 	thm
 ];
 
