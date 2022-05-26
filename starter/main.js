@@ -75,4 +75,22 @@ module.exports = {
 		}
 		return table;
 	},
+	async meta(movieId) {
+		if (!movieId.startsWith('s-')) return;
+		const n = Number.parseInt(movieId.substr(2));
+		const fn = fUtil.getFileIndex('starter-', '.xml', n);
+
+		const fd = fs.openSync(fn, 'r');
+		const buffer = Buffer.alloc(256);
+		fs.readSync(fd, buffer, 0, 256, 0);
+		const begTitle = buffer.indexOf('<title>') + 16;
+		const endTitle = buffer.indexOf(']]></title>');
+		const title = buffer.slice(begTitle, endTitle).toString().trim().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+		fs.closeSync(fd);
+		return {
+			title: title,
+			id: movieId,
+		};
+	},
 }
