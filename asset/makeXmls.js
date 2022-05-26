@@ -5,8 +5,9 @@ const asset = require('./main');
 const starter = require('../starter/main');
 const nodezip = require('node-zip');
 
-module.exports = (data, makeZip) => function (res) {
+module.exports = (data, makeZip, zip) => function (res) {
 	var xmlString, files;
+	zip = nodezip.create();
 	switch (data.type) {
 		case 'char': {
 			const chars = asset.chars(data.themeId);
@@ -33,7 +34,6 @@ module.exports = (data, makeZip) => function (res) {
 	};
 
 	if (makeZip) {
-		const zip = nodezip.create();
 		fUtil.addToZip(zip, 'desc.xml', Buffer.from(xmlString));
 
 		switch (data.type) {
