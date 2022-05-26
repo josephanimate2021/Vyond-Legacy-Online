@@ -72,20 +72,16 @@ module.exports = function (req, res, url) {
 
 			switch (data.type) {
 				case 'bg': {
-					fUtil.addToZip(zip, 'bg/666.jpg', fs.readFileSync(`/pages/img/logo.png`));
-					break;
-				}
-				case 'prop': {
-					fUtil.addToZip(zip, 'prop/666.jpg', fs.readFileSync(`/pages/img/logo.png`));
+					for (let c = 0; c < files.length; c++) {
+						const file = files[c];
+						fUtil.addToZip(zip, `bg/${file.id}`, asset.loadLocal(file.id));
+					}
 					break;
 				}
 			};
-			res.setHeader('Content-Type', 'application/zip');
-			res.end(Buffer.concat([base, await zip.zip()]));
-		}
-		else {
-			res.setHeader('Content-Type', 'text/xml');
-			res.end(xmlString);
+			return Buffer.concat([base, await zip.zip()]);
+		} else {
+			return Buffer.from(xmlString);
 		}
 	});
 	return true;
