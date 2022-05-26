@@ -76,7 +76,7 @@ module.exports = {
 		return table;
 	},
 	async meta(movieId) {
-		if (!movieId.startsWith('s-')) return;
+		if (!movieId.startsWith('0-')) return;
 		const n = Number.parseInt(movieId.substr(2));
 		const fn = fUtil.getFileIndex('starter-', '.xml', n);
 
