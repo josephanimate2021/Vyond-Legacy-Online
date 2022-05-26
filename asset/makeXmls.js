@@ -3,11 +3,10 @@ const header = process.env.XML_HEADER;
 const fUtil = require('../fileUtil');
 const asset = require('./main');
 const starter = require('../starter/main');
-const nodezip = require('node-zip');
+const nodezip = require('node-zip'), zip = nodezip.create();
 
-module.exports = (data, makeZip, zip) => function (res) {
+module.exports = (data, makeZip) => function (res) {
 	var xmlString, files;
-	zip = nodezip.create();
 	switch (data.type) {
 		case 'char': {
 			const chars = asset.chars(data.themeId);
