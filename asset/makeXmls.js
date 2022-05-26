@@ -3,9 +3,8 @@ const header = process.env.XML_HEADER;
 const fUtil = require('../fileUtil');
 const asset = require('./main');
 const starter = require('../starter/main');
-const nodezip = require('node-zip'), zip = nodezip.create();
 
-module.exports = (data, makeZip) => function (res) {
+module.exports = (data) => function (res) {
 	var xmlString, files;
 	switch (data.type) {
 		case 'char': {
@@ -31,20 +30,4 @@ module.exports = (data, makeZip) => function (res) {
 			break;
 		}
 	};
-
-	if (makeZip) {
-		fUtil.addToZip(zip, 'desc.xml', Buffer.from(xmlString));
-
-		switch (data.type) {
-			case 'bg': {
-				fUtil.addToZip(zip, 'bg/666.jpg', fs.readFileSync(`/pages/img/logo.png`));
-				break;
-			}
-		};
-		res.setHeader('Content-Type', 'application/zip');
-		res.end(Buffer.concat([base, await zip.zip()]));
-	} else {
-		res.setHeader('Content-Type', 'text/xml');
-		res.end(xmlString);
-	}
 }
