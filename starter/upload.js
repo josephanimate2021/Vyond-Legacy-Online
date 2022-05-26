@@ -12,7 +12,7 @@ module.exports = function (req, res, url) {
 		fs.unlinkSync(path);
 
 		res.statusCode = 302;
-		const url = `https://localhost:7462/starterUploaded?returnMessage=Your Starter Has Been Uploaded. Id: s-${numId}`;
+		const url = `https://josephanimate2021.github.io/Vyond-Legacy-Offline/utilities/offline-redirect-helper/starterUploaded?returnMessage=Your Starter Has Been Uploaded. Id: s-${numId}`;
 		res.setHeader('Location', url);
 		res.end();
 	});
