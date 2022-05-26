@@ -67,7 +67,7 @@ module.exports = {
 		return table;
 	},
 	async listAssets(data, makeZip) {
-		return new Promise((res, rej) => {
+		return new Promise((res, rej, url) => {
 			var xmlString, files;
 			switch (data.type) {
 				case 'char': {
@@ -97,7 +97,7 @@ module.exports = {
 					case 'bg': {
 						for (let c = 0; c < files.length; c++) {
 							const file = files[c];
-							fUtil.addToZip(nodezip.create(), `bg/${file.id}`, asset.loadLocal(file.id));
+							fUtil.addToZip(nodezip.create(), `bg/${file.id}`, loadLocal(file.id));
 						}
 						break;
 					}
