@@ -22,6 +22,10 @@ module.exports = (data, makeZip) => function (res) {
 					v.id}.png"><tags></tags></movie>`).join('')}</ugc>`;
 			break;
 		}
+		case 'bg': {
+			xmlString = `${header} <ugc more="0"><bg id="666.jpg"></ugc>`;
+			break;
+		}
 		default: { // No File Type? Send in a blank response.
 			xmlString = `${header}<ugc more="0"></ugc>`;
 			break;
@@ -34,13 +38,14 @@ module.exports = (data, makeZip) => function (res) {
 
 		switch (data.type) {
 			case 'bg': {
-				for (let c = 0; c < files.length; c++) {
-					const file = files[c];
-					fUtil.addToZip(zip, `bg/${file.id}`, asset.loadLocal(file.id));
-				}
+				fUtil.addToZip(zip, 'bg/666.jpg', fs.readFileSync(`/pages/img/logo.png`));
 				break;
 			}
 		};
-		return Buffer.from(xmlString);
+		res.setHeader('Content-Type', 'application/zip');
+		res.end(Buffer.concat([base, await zip.zip()]));
+	} else {
+		res.setHeader('Content-Type', 'text/xml');
+		res.end(xmlString);
 	}
 }
