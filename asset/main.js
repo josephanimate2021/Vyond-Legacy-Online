@@ -91,19 +91,18 @@ module.exports = {
 			};
 
 			if (makeZip) {
-				const zip = nodezip.create();
-				fUtil.addToZip(zip, 'desc.xml', Buffer.from(xmlString));
+				fUtil.addToZip(nodezip.create(), 'desc.xml', Buffer.from(xmlString));
 
 				switch (data.type) {
 					case 'bg': {
 						for (let c = 0; c < files.length; c++) {
 							const file = files[c];
-							fUtil.addToZip(zip, `bg/${file.id}`, asset.loadLocal(file.id));
+							fUtil.addToZip(nodezip.create(), `bg/${file.id}`, asset.loadLocal(file.id));
 						}
 						break;
 					}
 				};
-				return Buffer.concat([base, await zip.zip()]);
+				return Buffer.concat([base, await nodezip.create()]);
 			}
 			else
 				return Buffer.from(xmlString);
