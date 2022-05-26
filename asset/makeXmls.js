@@ -8,7 +8,7 @@ module.exports = (data, makeZip) => function (res) {
 	var xmlString, files;
 	switch (data.type) {
 		case 'char': {
-			const chars = await asset.chars(data.themeId);
+			const chars = asset.chars(data.themeId);
 			xmlString = `${header}<ugc more="0">${chars.map(v => `<char id="${v.id}" name="Untitled" cc_theme_id="${
 				v.theme}" thumbnail_url="char_default.png" copyable="Y"><tags/></char>`).join('')}</ugc>`;
 			break;
