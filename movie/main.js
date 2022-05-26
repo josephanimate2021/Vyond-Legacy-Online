@@ -158,6 +158,16 @@ module.exports = {
 		}
 		return array;
 	},
+	listStarter() {
+		const array = [];
+		const last = fUtil.getLastFileIndex('starter-', '.xml');
+		for (let c = last; c >= 0; c--) {
+			const movie = fs.existsSync(fUtil.getFileIndex('starter-', '.xml', c));
+			const thumb = fs.existsSync(fUtil.getFileIndex('starter-', '.png', c));
+			if (movie && thumb) array.push(`0-${c}`);
+		}
+		return array;
+	},
 	async meta(movieId) {
 		if (!movieId.startsWith('m-')) return;
 		const n = Number.parseInt(movieId.substr(2));
