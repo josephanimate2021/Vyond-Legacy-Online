@@ -16,7 +16,7 @@ module.exports = function (req, res, url) {
 		playerPath = "themeChooser";
 	} else {
 		returnUrl = "https://josephanimate2021.github.io";
-		playerPath = "lvm-static/themeChooser?return=http://localhost:4343/";
+		playerPath = "lvm-static/themeChooser?return=https://vlooffical.herokuapp.com/";
 	}
 	res.setHeader("Content-Type", "text/html; charset=UTF-8");
 	res.end(`<html>
