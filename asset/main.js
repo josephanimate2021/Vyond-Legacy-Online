@@ -43,7 +43,7 @@ module.exports = {
 	getBackgrounds() { return getFilter('bg-', 'b', info.bg.filetypes); },
 	getProps() { return getFilter('prop-', 'p', info.prop.filetypes); },
 	getSounds() { return getFilter('sound-', 's', info.sound.filetypes); },
-	async cc(theme) {
+	async chars(theme) {
 		switch (theme) {
 			case 'custom':
 				theme = 'family';
@@ -65,45 +65,5 @@ module.exports = {
 				table.unshift({ theme: theme, id: id, });
 		}
 		return table;
-	},
-	async listAssets(data, makeZip) {
-		function (res, rej, url) {
-			var xmlString, files;
-			switch (data.type) {
-				case 'char': {
-					const chars = this.cc(data.themeId);
-					xmlString = `${header}<ugc more="0">${chars.map(v => `<char id="${v.id}" name="Untitled" cc_theme_id="${
-								v.theme}" thumbnail_url="char_default.png" copyable="Y"><tags/></char>`).join('')}</ugc>`;
-					break;
-				}
-				case 'movie': {
-					files = Promise.all(movie.listStarter().map(starter.meta)).then(a => res.end(JSON.stringify(a)));
-					xmlString = `${header}<ugc more="0">${files.map(v =>`
-					<movie id="${v.id}" path="/_SAVED/${
-								v.id}" numScene="${v.sceneCount}" title="${v.name}" thumbnail_url="/starter_thumbs/${
-										v.id}.png"><tags></tags></movie>`).join('')}</ugc>`;
-					break;
-				}
-				default: { // No File Type? Send in a blank response.
-					xmlString = `${header}<ugc more="0"></ugc>`;
-					break;
-				}
-			};
-
-			if (makeZip) {
-				fUtil.addToZip(nodezip.create(), 'desc.xml', Buffer.from(xmlString));
-
-				switch (data.type) {
-					case 'bg': {
-						for (let c = 0; c < files.length; c++) {
-							const file = files[c];
-							fUtil.addToZip(nodezip.create(), `bg/${file.id}`, this.loadLocal(file.id));
-						}
-						break;
-					}
-				};
-				return Buffer.from(xmlString);
-			}
-		});
 	},
 };
