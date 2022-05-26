@@ -4,6 +4,7 @@ const fUtil = require('../fileUtil');
 const nodezip = require('node-zip');
 const base = Buffer.alloc(1, 0);
 const asset = require('./main');
+const listAssets = require('./makeXmls');
 const starter = require('../starter/main');
 const movie = require('../movie/main');
 
@@ -34,14 +35,14 @@ module.exports = function (req, res, url) {
 
 	switch (req.method) {
 		case 'GET': {
-			asset.listAssets(url.query, makeZip).then(buff => {
+			listAssets(url.query, makeZip).then(buff => {
 				const type = makeZip ? 'application/zip' : 'text/xml';
 				res.setHeader('Content-Type', type), res.end(buff);
 			});
 			return true;
 		}
 		case 'POST': {
-			loadPost(req, res).then(data => asset.listAssets(data, makeZip)).then(buff => {
+			loadPost(req, res).then(data => listAssets(data, makeZip)).then(buff => {
 				const type = makeZip ? 'application/zip' : 'text/xml';
 				res.setHeader('Content-Type', type), res.end(buff);
 			});
