@@ -102,10 +102,8 @@ module.exports = {
 						break;
 					}
 				};
-				return Buffer.concat([base, await nodezip.create()]);
-			}
-			else
 				return Buffer.from(xmlString);
+			}
 		});
 	},
 };
