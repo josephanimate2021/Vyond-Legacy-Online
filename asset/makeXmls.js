@@ -3,6 +3,7 @@ const header = process.env.XML_HEADER;
 const fUtil = require('../fileUtil');
 const asset = require('./main');
 const starter = require('../starter/main');
+const nodezip = require('node-zip');
 
 module.exports = (data, makeZip) => function (res) {
 	var xmlString, files;
