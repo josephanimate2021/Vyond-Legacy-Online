@@ -67,7 +67,7 @@ module.exports = {
 		return table;
 	},
 	async listAssets(data, makeZip) {
-		return new Promise((res, rej, url) => {
+		function (res, rej, url) {
 			var xmlString, files;
 			switch (data.type) {
 				case 'char': {
