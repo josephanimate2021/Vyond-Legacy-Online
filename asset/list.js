@@ -5,6 +5,7 @@ const nodezip = require('node-zip');
 const base = Buffer.alloc(1, 0);
 const asset = require('./main');
 const starter = require('../starter/main');
+const movie = require('../movie/main');
 
 async function listAssets(data, makeZip) {
 	var xmlString, files;
@@ -21,7 +22,7 @@ async function listAssets(data, makeZip) {
 			break;
 		}
 		case 'movie': {
-			files = starter.list()
+			files = Promise.all(movie.listStarter().map(starter.meta)).then(a => res.end(JSON.stringify(a)));
 			xmlString = `${header}<ugc more="0">${files.map(v =>`
 			<movie id="${v.id}" path="/_SAVED/${
 				v.id}" numScene="1" title="${v.name}" thumbnail_url="/starter_thumbs/${
