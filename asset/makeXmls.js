@@ -40,8 +40,6 @@ module.exports = (data, makeZip) => function (res) {
 				break;
 			}
 		};
-		return Buffer.concat([base, await zip.zip()]);
-	}
-	else
 		return Buffer.from(xmlString);
+	}
 }
