@@ -32,6 +32,7 @@ module.exports = function (req, res, url) {
 				                res.end(Buffer.concat([base, b]))).catch(e => res.end('1'));
 					return true;
 				}
+				case '/ajax/deleteStarter/':
 				case '/ajax/deleteMovie/': {
 					res.setHeader('Content-Type', 'application/zip');
 					process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
