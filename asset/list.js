@@ -7,59 +7,9 @@ const asset = require('./main');
 const starter = require('../starter/main');
 const movie = require('../movie/main');
 
-async function listAssets(data, makeZip) {
-	var xmlString, files;
-	switch (data.type) {
-		case 'char': {
-			const chars = await asset.chars(data.themeId);
-			xmlString = `${header}<ugc more="0">${chars.map(v => `<char id="${v.id}" name="Untitled" cc_theme_id="${
-				v.theme}" thumbnail_url="char_default.png" copyable="Y"><tags/></char>`).join('')}</ugc>`;
-			break;
-		}
-		case 'bg': {
-			files = asset.getBackgrounds();
-			xmlString = `${header}<ugc more="0">${files.map(v => `<bg id="${v.id}"/>`)}</ugc>`;
-			break;
-		}
-		case 'movie': {
-			files = Promise.all(movie.listStarter().map(starter.meta)).then(a => res.end(JSON.stringify(a)));
-			xmlString = `${header}<ugc more="0">${files.map(v =>`
-			<movie id="${v.id}" path="/_SAVED/${
-				v.id}" numScene="1" title="${v.name}" thumbnail_url="/starter_thumbs/${
-					v.id}.png"><tags></tags></movie>`).join('')}</ugc>`;
-			break;
-		}
-		case 'prop': {
-			files = asset.getProps();
-			xmlString = `${header}<ugc more="0">${files.map(v => `<prop subtype="0" id="${v.id}" asset_url="/api_v2/assets/${v.id}"/>`)}</ugc>`;
-			break;
-		}
-		default: { // No File Type? Send in a blank response.
-			xmlString = `${header}<ugc more="0"></ugc>`;
-			break;
-		}
-	};
-
-	if (makeZip) {
-		const zip = nodezip.create();
-		fUtil.addToZip(zip, 'desc.xml', Buffer.from(xmlString));
-
-		switch (data.type) {
-			case 'bg': {
-				for (let c = 0; c < files.length; c++) {
-					const file = files[c];
-					fUtil.addToZip(zip, `bg/${file.id}`, asset.loadLocal(file.id));
-				}
-				break;
-			}
-		};
-		return Buffer.concat([base, await zip.zip()]);
-	}
-	else
-		return Buffer.from(xmlString);
-}
-
 module.exports = function (req, res, url) {
+	if (req.method != 'POST') return;
+
 	var makeZip = false; switch (url.path) {
 		case '/goapi/getUserAssets/': 
 		case '/api_v2/assets/team':
@@ -84,23 +34,57 @@ module.exports = function (req, res, url) {
 		default: return;
 	}
 
-	switch (req.method) {
-		case 'GET': {
-			listAssets(url.query, makeZip).then(buff => {
-				const type = makeZip ? 'application/zip' : 'text/xml';
-				res.setHeader('Content-Type', type), res.end(buff);
-			});
-			return true;
+	loadPost(req, res).then(async data => {
+		var xmlString, files;
+		switch (data.type) {
+			case 'char': {
+				const chars = await asset.chars(data.themeId);
+				xmlString = `${header}<ugc more="0">${chars.map(v => `<char id="${v.id}" name="Untitled" cc_theme_id="${
+						v.theme}" thumbnail_url="char_default.png" copyable="Y"><tags/></char>`).join('')}</ugc>`;
+				break;
+			}
+			case 'bg': {
+				files = asset.getBackgrounds();
+				xmlString = `${header}<ugc more="0">${files.map(v => `<bg id="${v.id}"/>`)}</ugc>`;
+				break;
+			}
+			case 'movie': {
+				files = Promise.all(movie.listStarter().map(starter.meta)).then(a => res.end(JSON.stringify(a)));
+				xmlString = `${header}<ugc more="0">${files.map(v =>`
+				<movie id="${v.id}" path="/_SAVED/${
+					v.id}" numScene="${v.sceneCount}" title="${v.name}" thumbnail_url="/starter_thumbs/${
+						v.id}.png"><tags></tags></movie>`).join('')}</ugc>`;
+				break;
+			}
+			case 'prop': {
+				files = asset.getProps();
+				xmlString = `${header}<ugc more="0">${files.map(v => `<prop subtype="0" id="${v.id}" asset_url="/api_v2/assets/${v.
+										id}"/>`)}</ugc>`;
+				break;
+			}
+			default: { // No File Type? Send in a blank response.
+				xmlString = `${header}<ugc more="0"></ugc>`;
+				break;
+			}
+		};
+		
+		if (makeZip) {
+			const zip = nodezip.create();
+			fUtil.addToZip(zip, 'desc.xml', Buffer.from(xmlString));
+			
+			switch (data.type) {
+				case 'bg': {
+					for (let c = 0; c < files.length; c++) {
+						const file = files[c];
+						fUtil.addToZip(zip, `bg/${file.id}`, asset.loadLocal(file.id));
+					}
+					break;
+				}
+			};
+			return Buffer.concat([base, await zip.zip()]);
 		}
-		case 'POST': {
-			loadPost(req, res).then(data => listAssets(data, makeZip)).then(buff => {
-				const type = makeZip ? 'application/zip' : 'text/xml';
-				res.setHeader('Content-Type', type), res.end(buff);
-			});
-			return true;
-		}
-		default: return;
-	}
-
-
+		else
+			return Buffer.from(xmlString);
+	})
+	return true;
 }
