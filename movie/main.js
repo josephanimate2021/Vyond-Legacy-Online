@@ -81,20 +81,40 @@ module.exports = {
 	delete(mId) {
 		return new Promise((res, rej) => {
 			const i = mId.indexOf('-');
+			const prefix = movieId.substr(0, i);
 			const suffix = mId.substr(i + 1);
 			var numId = Number.parseInt(suffix);
 			if (isNaN(numId)) rej();
-			var filePath = fUtil.getFileIndex('movie-', '.xml', numId);
+			switch (prefix) {
+				case '0': {
+					var filePath = fUtil.getFileIndex('starter-', '.xml', numId);
+					break;
+				}
+				case 'm': {
+					var filePath = fUtil.getFileIndex('movie-', '.xml', numId);
+					break;
+				}
+			}
 			fs.unlinkSync(filePath);
 		});
 	},
         deleteThumb(mId) {
 		return new Promise((res, rej) => {
 			const i = mId.indexOf('-');
+			const prefix = movieId.substr(0, i);
 			const suffix = mId.substr(i + 1);
 			var numId = Number.parseInt(suffix);
 			if (isNaN(numId)) rej();
-			var filePath = fUtil.getFileIndex('thumb-', '.png', numId);
+			switch (prefix) {
+				case '0': {
+					var filePath = fUtil.getFileIndex('starter-', '.png', numId);
+					break;
+				}
+				case 'm': {
+					var filePath = fUtil.getFileIndex('thumb-', '.png', numId);
+					break;
+				}
+			}
 			fs.unlinkSync(filePath);
 		});
 	},
