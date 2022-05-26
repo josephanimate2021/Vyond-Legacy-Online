@@ -62,9 +62,24 @@ module.exports = function (req, res, url) {
 	var makeZip = false; switch (url.path) {
 		case '/goapi/getUserAssets/': 
 		case '/api_v2/assets/team':
-		case '/api_v2/assets/shared': { makeZip = true; break; }
-		case '/goapi/getUserAssetsXml/': break;
-		case '/goapi/deleteUserTemplate/': { starter.delete(); break; }
+		case '/api_v2/assets/shared': { 
+			makeZip = true; 
+			break; 
+		}
+		case '/goapi/getUserAssetsXml/': {
+			break;
+		}
+		case '/goapi/deleteUserTemplate/': { 
+			starter.delete(); 
+			starter.deleteThumb(); 
+			break; 
+		}
+		/* if i am able to make the meta for starters.
+		case '/goapi/updateSysTemplateAttributes/': { 
+			starter.update(); 
+			break; 
+		}
+		*/
 		default: return;
 	}
 

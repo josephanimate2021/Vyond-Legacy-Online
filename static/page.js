@@ -81,7 +81,10 @@ module.exports = function (req, res, url) {
 	}
 	res.setHeader('Content-Type', 'text/html; charset=UTF-8');
 	Object.assign(params.flashvars, query);
-	res.end(`<html><head>
+	if (url.pathname == "/yourvideos") {
+		res.end(`${stuff.pages[url.pathname] || ""}`);
+	} else {
+		res.end(`<html><head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <link rel="dns-prefetch" href="https://d2bm7x1jqouzel.cloudfront.net">
@@ -359,7 +362,7 @@ function voiceBanner(bannerId) {
             resize_studio = false;
         }
 
-        studio_data.flashvars = {"presaveId":"${params.flashvars.presaveId}","movieId":"${params.flashvars.movieId}","loadas":0,"asId":"","originalId":"","apiserver":"\/","storePath":"${params.flashvars.storePath}","clientThemePath":"${params.flashvars.clientThemePath}","animationPath":"${params.flashvars.animationPath}","userId":"0cf4CMw1ZNCk","username":"bakeryb40488","uemail":"bakeryb40488@gmail.com","numContact":"0","ut":23,"ve":false,"isEmbed":0,"nextUrl":"javascript:peformANextUrlRedirect()","bgload":"${attrs.data}","lid":"13","ctc":"go","themeColor":"silver","tlang":"en_US","siteId":"13","templateshow":"false","forceshow":"false","appCode":"go","lang":"en","tmcc":4048901,"fb_app_url":"https:\/\/ga.vyond.com\/","is_published":"0","is_private_shared":"1","is_password_protected":false,"upl":1,"hb":"1","pts":"1","msg_index":"","ad":0,"has_asset_bg":1,"has_asset_char":0,"initcb":"studioLoaded","retut":0,"featured_categories":null,"s3base":"https:\/\/s3.amazonaws.com\/fs.goanimate.com\/,https:\/\/assets.vyond.com\/","st":"","uisa":0,"u_info":"OjI6elg5SnZCOUEyTHZiY2lhZGRXTm9Nd0ljVWhNbEpGaXJFdkpEdkltdEp6RWhrQ0VIbXZIVTBjRTlhUGZKMjJoVHVTUE5vZk1XYnFtSE1vZG5TeldyQVJNcDFmUFB2NDVtR0FTSlZZ","tm":"FIN","tray":"${params.flashvars.tray}","isWide":1,"newusr":1,"goteam_draft_only":0};
+        studio_data.flashvars = {"presaveId":"${params.flashvars.presaveId}","movieId":"${params.flashvars.movieId}","loadas":0,"asId":"","originalId":"","apiserver":"\/","storePath":"${params.flashvars.storePath}","clientThemePath":"${params.flashvars.clientThemePath}","animationPath":"${params.flashvars.animationPath}","userId":"0cf4CMw1ZNCk","username":"bakeryb40488","uemail":"bakeryb40488@gmail.com","numContact":"0","ut":${params.flashvars.ut},"ve":false,"isEmbed":0,"nextUrl":"javascript:peformANextUrlRedirect()","bgload":"${attrs.data}","lid":"13","ctc":"go","themeColor":"silver","tlang":"en_US","siteId":"13","templateshow":"false","forceshow":"false","appCode":"go","lang":"en","tmcc":4048901,"fb_app_url":"https:\/\/ga.vyond.com\/","is_published":"0","is_private_shared":"1","is_password_protected":false,"upl":1,"hb":"1","pts":"1","msg_index":"","ad":0,"has_asset_bg":1,"has_asset_char":0,"initcb":"studioLoaded","retut":0,"featured_categories":null,"s3base":"https:\/\/s3.amazonaws.com\/fs.goanimate.com\/,https:\/\/assets.vyond.com\/","st":"","uisa":0,"u_info":"OjI6elg5SnZCOUEyTHZiY2lhZGRXTm9Nd0ljVWhNbEpGaXJFdkpEdkltdEp6RWhrQ0VIbXZIVTBjRTlhUGZKMjJoVHVTUE5vZk1XYnFtSE1vZG5TeldyQVJNcDFmUFB2NDVtR0FTSlZZ","tm":"FIN","tray":"${params.flashvars.tray}","isWide":1,"newusr":1,"goteam_draft_only":0};
 
         var _ccad = null;
 
@@ -635,41 +638,20 @@ function loadLegacyPreview() {
 
     savePreviewData(movieDataXmlStr);
     createPreviewPlayer("playerdiv", {
-            height: 360,
-            width: 640,
-            player_url: "${params.flashvars.animationPath}player.swf",
-            quality: "high",
-            wmode: "transparent",
-        }, {
-            movieId: "${params.flashvars.presaveId}", 
-            ut: "60",
-            movieLid: "13", 
-            apiserver: "/", 
-            copyable: "0", 
-            isPublished: "0", 
-            ctc: "go", 
-            tlang: "en_US", 
-            autostart: "1", 
-            appCode: "go", 
-            is_slideshow: "0", 
-            originalId: "0", 
-            is_emessage: "0", 
-            isEmbed: "1", 
-            refuser: "",
-            utm_source: "", 
-            uid: "", 
-            isTemplate: "1", 
-            showButtons: "1", 
-            chain_mids: "", 
-            showshare: "1", 
-            averageRating: "",
-            ratingCount: "", 
-            numContact: 0, 
-            isInitFromExternal: 1, 
-            storePath: "${params.flashvars.storePath}", 
-            clientThemePath: "${params.flashvars.clientThemePath}", 
-            startFrame: previewStartFrame
-        });
+        height: 360,
+        width: 640,
+        player_url: "${server}/animation/930/player.swf",
+        quality: "high"
+    }, {
+        movieOwner: "", movieOwnerId: "", movieId: "${params.flashvars.presaveId}", ut: "-1",
+        movieLid: "8", movieTitle: "", movieDesc: "", userId: "", username: "", uemail: "",
+        apiserver: "/", thumbnailURL: "", copyable: "0", isPublished: "0", ctc: "go", tlang: "en_US", is_private_shared: "0",
+        autostart: "1", appCode: "go", is_slideshow: "0", originalId: "0", is_emessage: "0", isEmbed: "0", refuser: "",
+        utm_source: "", uid: "", isTemplate: "1", showButtons: "0", chain_mids: "", showshare: "0", averageRating: "",
+                    s3base: "https://s3.amazonaws.com/fs.goanimate.com/,https://assets.vyond.com/",
+                ratingCount: "", fb_app_url: "https://ga.vyond.com/", numContact: 0, isInitFromExternal: 1, storePath: "${params.flashvars.storePath}", clientThemePath: "${params.flashvars.clientThemePath}", animationPath: "${params.flashvars.animationPath}",
+        startFrame: previewStartFrame
+    });
     $('#previewPlayer').removeClass('using-h5');
 }
 
@@ -1026,5 +1008,6 @@ src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAARAQAABAAQRFNJRw
 <script type="text/javascript" id="">!function(b,e,f,g,a,c,d){b.fbq||(a=b.fbq=function(){a.callMethod?a.callMethod.apply(a,arguments):a.queue.push(arguments)},b._fbq||(b._fbq=a),a.push=a,a.loaded=!0,a.version="2.0",a.queue=[],c=e.createElement(f),c.async=!0,c.src=g,d=e.getElementsByTagName(f)[0],d.parentNode.insertBefore(c,d))}(window,document,"script","//connect.facebook.net/en_US/fbevents.js");fbq("init","784667875001149");fbq("track","PageView");</script>
 <noscript>&lt;img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=784667875001149&amp;amp;ev=PageView&amp;amp;noscript=1"&gt;</noscript>
 </body></html>`);
+	}
 	return true;
 }

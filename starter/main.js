@@ -33,12 +33,31 @@ module.exports = {
 		return new Promise(async (res, rej) => {
 			var starterId = fUtil.getValidFileIndicies('starter-', '.xml');
 			var starterPath = fUtil.getFileIndex('starter-', '.xml', starterId);
-                        var strThumbPath = fUtil.getFileIndex('starter-', '.png', starterId);
-			fs.unlinkSync(starterPath, strThumbPath);
+			fs.unlinkSync(starterPath);
 			res('0-' + starterId);
 			
 		});
 	},
+	deleteThumb() {
+		return new Promise(async (res, rej) => {
+			var starterId = fUtil.getValidFileIndicies('starter-', '.png');
+			var starterPath = fUtil.getFileIndex('starter-', '.png', starterId);
+			fs.unlinkSync(starterPath);
+			res('0-' + starterId);
+			
+		});
+	},
+	/* if i am able to make the meta for starters.
+	update() {
+		return new Promise(async (res, rej) => {
+			var starterId = fUtil.getValidFileIndicies('starter-', '.xml');
+			var starterPath = fUtil.getFileIndex('starter-', '.xml', starterId);
+			fs.renameSync(starterPath);
+			res('0-' + starterId);
+			
+		});
+	},
+	*/
 	thumb(movieId) {
 		return new Promise((res, rej) => {
 			if (!movieId.startsWith('0-')) return;

@@ -3,11 +3,12 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="icon" href="../../favicon.ico" type="image/png">
-	<title>Vyond Legacy Offline - Video List</title>
-	<meta name="description" content="GoAnimate 2016: Offline's Video List">
+	<title>Vyond Legacy Online - Video List</title>
+	<meta name="description" content="Vyond Legacy Online's Video List">
 	<link rel="stylesheet" type="text/css" href="../css/modern-normalize.css">
 	<link rel="stylesheet" type="text/css" href="../css/global.css">
 	<link rel="stylesheet" type="text/css" href="../css/list.css">
+			
 </head>
 <body>
 
@@ -21,6 +22,7 @@
 			<nav class="dropdown_menu">
 				<a onclick="document.getElementById('file').click()">Movie</a>
 				<a onclick="document.getElementById('file2').click()">Character</a>
+                                <a onclick="document.getElementById('file3').click()">Starter</a>
 			</nav>
 		</div>	
 		<div class="dropdown_contain button_small">
@@ -60,10 +62,10 @@
 				<a href="/cc_browser?themeId=ninja">Chibi Ninjas</a>
 			</nav>
 		</div>
-		<a href="https://localhost:8043/themeChooser" class="button_big">MAKE A VIDEO</a>
+		<a href="/videomaker" class="button_big">MAKE A VIDEO</a>
 	</nav>
 </header>
-<div id="warning">Vyond Legacy Online is currently in heavy development right now. if you want more features than online, then click <a href="https://github.com/josephanimate2021/Vyond-Legacy-Offline">here</a>. please expect everything to not work like expected like importing and eta.</div>
+<div id="warning">Vyond Legacy Online is currently in heavy development right now. if you want more features than online, then click <a href="https://github.com/josephanimate2021/Vyond-Legacy-Offline-Installer">here</a>. please expect everything to not work like expected like importing and eta.</div>
 <main>
 	<table>
 		<thead>
@@ -104,6 +106,11 @@
 <form enctype='multipart/form-data' action='/upload_character' method='post'>
 	<input id='file2' type="file" onchange="this.form.submit()" name='import' />
 </form>
+
+<form enctype='multipart/form-data' action='/upload_starter' method='post'>
+	<input id='file3' type="file" onchange="this.form.submit()" name='import' />
+</form>
+
 
 </body>
 

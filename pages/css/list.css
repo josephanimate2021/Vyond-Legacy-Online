@@ -108,6 +108,9 @@ tr>:nth-child(4)>:nth-child(2)::before {
 tr>:nth-child(4)>:nth-child(3)::before {
 	content: '\E182';
 }
+tr>:nth-child(4)>:nth-child(4)::before {
+	content: '\E017';
+}
 
 tfoot>tr>td {
 	text-align: center;

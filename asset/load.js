@@ -16,24 +16,50 @@ module.exports = function (req, res, url) {
 		}
 
 		case 'POST': {
-			if (url.path != '/goapi/getAsset/' && url.path != '/goapi/getAssetEx/') return;
-			loadPost(req, res).then(data => {
-				const mId = data.movieId || data.presaveId || sessions.get(req);
-				const aId = data.assetId || data.enc_asset_id;
+			switch (url.pathname) {
+				case '/goapi/getAsset/':
+				case '/goapi/getAssetEx/': {
+					loadPost(req, res).then(data => {
+						const mId = data.movieId || data.presaveId || sessions.get(req);
+						const aId = data.assetId || data.enc_asset_id;
 
-				const b = asset.loadLocal(mId, aId);
-				sessions.set({ movieId: mId }, req);
-				if (b) {
-					res.setHeader('Content-Length', b.length);
-					res.setHeader('Content-Type', 'audio/mp3');
-					res.end(b);
+						const b = asset.loadLocal(mId, aId);
+						sessions.set({ movieId: mId }, req);
+						if (b) {
+							res.setHeader('Content-Length', b.length);
+							res.setHeader('Content-Type', 'audio/mp3');
+							res.end(b);
+						} else {
+							res.statusCode = 404;
+							res.end();
+						};
+					});
+					return true;
 				}
-				else {
-					res.statusCode = 404;
-					res.end();
-				};
-			});
-			return true;
+				/* i was going to use this script to delete assets in the cache folder.
+				but that breaks the your library thing everytime in a video.
+				you may use this script if you like to see for yourself. it may require a few files to run.
+				case '/goapi/deleteAsset/': {
+					loadPost(req, res).then(data => {
+						const mId = data.movieId || data.presaveId || sessions.get(req);
+						const aId = data.assetId || data.enc_asset_id;
+
+						const b = asset.delete(mId, aId);
+						sessions.set({ movieId: mId }, req);
+						if (b) {
+							res.setHeader('Content-Length', b.length);
+							res.setHeader('Content-Type', 'audio/mp3');
+							res.end(b);
+						} else {
+							res.statusCode = 404;
+							res.end();
+						};
+					});
+					return true;
+				}
+				*/
+					
+			}
 		}
 		default: return;
 	}

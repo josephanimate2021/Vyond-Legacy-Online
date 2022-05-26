@@ -472,4 +472,13 @@ module.exports = {
 	async unpackCharXml(xml, id) {
 		fs.writeFileSync(fUtil.getFileIndex('char-', '.xml', id), xml);
 	},
+        async unpackStarterXml(xml, id) {
+		const beg = xml.lastIndexOf('<thumb>');
+		const end = xml.lastIndexOf('</thumb>');
+		if (beg > -1 && end > -1) {
+			const sub = Buffer.from(xml.subarray(beg + 7, end).toString(), 'base64');
+			fs.writeFileSync(fUtil.getFileIndex('starter-', '.png', id), sub);
+		}
+		fs.writeFileSync(fUtil.getFileIndex('starter-', '.xml', id), xml);
+	},
 }

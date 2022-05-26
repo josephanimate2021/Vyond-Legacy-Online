@@ -17,8 +17,10 @@ const stl = require('./static/load');
 const stp = require('./static/page');
 const stc = require('./static/pagecc');
 const lvp = require('./static/pagelvp');
+const thm = require('./static/pagethemelist');
 const str = require('./starter/save');
 const stt = require('./starter/thmb');
+const stu = require('./starter/upload');
 const mvl = require('./movie/load');
 const mvL = require('./movie/list');
 const mvm = require('./movie/meta');
@@ -60,16 +62,14 @@ const functions = [
 	stt,
 	stc,
 	lvp,
+        stu,
+	thm
 ];
 
 // Creates an HTTP server
 module.exports = http.createServer((req, res) => {
 	const parsedUrl = url.parse(req.url, true);
-	/* this would be used. but i don't think that this will work. it will just keep redirecting to the same page on a single click.
-	if (req.url == "http://localhost:4343/") {
-		location.href = process.env.LOCALHOST_LOCATION;
-	}
-	*/
+	//if (!parsedUrl.path.endsWith('/')) parsedUrl.path += '/';
 	const found = functions.find(f => f(req, res, parsedUrl));
 	if (!found) { res.statusCode = 404; res.end(); }
 }).listen(env.PORT || env.SERVER_PORT, console.log);
