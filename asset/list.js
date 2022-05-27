@@ -9,7 +9,7 @@ const asset = require('./main');
 const starter = require('../starter/main');
 const movie = require('../movie/main');
 const path = require("path");
-const folder = path.join(__dirname, "../", ".");
+const folder = path.join("../.");
 
 module.exports = function (req, res, url) {
 	if (req.method != 'POST') return;
