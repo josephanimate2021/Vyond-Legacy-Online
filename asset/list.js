@@ -73,13 +73,9 @@ module.exports = function (req, res, url) {
 			
 			switch (data.type) {
 				case 'bg': {
-					fUtil.addToZip(zip, 'bg/666.jpg', await get(`https://2.bp.blogspot.com/-hegG5mMd9kE/T9Y4CWZ6udI/AAAAAAAAA2I/nm-9Wlrh6a4/s1600/full-hd-wallpapers-1080p-1.jpg`));
+					fUtil.addToZip(zip, 'bg/666.jpg', await get(`/pages/img/wallpaper.jpg`));
 					break;
 				}	
-				case 'prop': {
-					fUtil.addToZip(zip, 'prop/666.jpg', await get(`https://2.bp.blogspot.com/-hegG5mMd9kE/T9Y4CWZ6udI/AAAAAAAAA2I/nm-9Wlrh6a4/s1600/full-hd-wallpapers-1080p-1.jpg`));
-					break;
-				}
 			};
 			res.setHeader('Content-Type', 'application/zip');
 			res.end(Buffer.concat([base, await zip.zip()]));
