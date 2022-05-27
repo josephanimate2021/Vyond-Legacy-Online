@@ -7,7 +7,7 @@ module.exports = function (req, res, url) {
 		case '/videomaker/full/': {     
 			params = {
 				flashvars: {
-					'theme': '',
+					'tray': '',
 				},
 			};
 			break;
@@ -21,7 +21,7 @@ module.exports = function (req, res, url) {
 	<head>
 		<script>
 			function genorateId() { 
-				window.location = '/studio?tray=${params.flashvars.theme}'; 
+				window.location = '/studio?tray=${params.flashvars.tray}'; 
 			}
 		</script>
 	</head>
