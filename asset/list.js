@@ -72,11 +72,11 @@ module.exports = function (req, res, url) {
 			
 			switch (data.type) {
 				case 'bg': {
-					fUtil.addToZip(zip, 'bg/666.jpg', fs.readFileSync(`/pages/img/logo.png`));
+					fUtil.addToZip(zip, 'bg/666.jpg', fs.readFileSync(`file: /pages/img/wallpaper.jpg`));
 					break;
 				}
 				case 'prop': {
-					fUtil.addToZip(zip, 'prop/666.jpg', fs.readFileSync(`/pages/img/logo.png`));
+					fUtil.addToZip(zip, 'prop/666.jpg', fs.readFileSync(`file: /pages/img/wallpaper.jpg`));
 					break;
 				}
 			};
