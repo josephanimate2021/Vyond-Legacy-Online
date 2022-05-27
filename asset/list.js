@@ -69,17 +69,6 @@ module.exports = function (req, res, url) {
 		if (makeZip) {
 			const zip = nodezip.create();
 			fUtil.addToZip(zip, 'desc.xml', Buffer.from(xmlString));
-
-			switch (data.type) {
-				case 'bg': {
-					fUtil.addToZip(zip, 'bg/666.jpg', fs.readFileSync(`/../pages/img/logo.png`));
-					break;
-				}
-				case 'prop': {
-					fUtil.addToZip(zip, 'prop/666.jpg', fs.readFileSync(`/../pages/img/logo.png`));
-					break;
-				}
-			};
 			res.setHeader('Content-Type', 'application/zip');
 			res.end(Buffer.concat([base, await zip.zip()]));
 		}
