@@ -8,8 +8,6 @@ const fs = require('fs');
 const asset = require('./main');
 const starter = require('../starter/main');
 const movie = require('../movie/main');
-const path = require("path");
-const folder = path.join("../.");
 
 module.exports = function (req, res, url) {
 	if (req.method != 'POST') return;
@@ -74,11 +72,11 @@ module.exports = function (req, res, url) {
 
 			switch (data.type) {
 				case 'bg': {
-					fUtil.addToZip(zip, 'bg/666.jpg', fs.readFileSync(`${folder}/pages/img/logo.png`));
+					fUtil.addToZip(zip, 'bg/666.jpg', fs.readFileSync(`/../pages/img/logo.png`));
 					break;
 				}
 				case 'prop': {
-					fUtil.addToZip(zip, 'prop/666.jpg', fs.readFileSync(`${folder}/pages/img/logo.png`));
+					fUtil.addToZip(zip, 'prop/666.jpg', fs.readFileSync(`/../pages/img/logo.png`));
 					break;
 				}
 			};
