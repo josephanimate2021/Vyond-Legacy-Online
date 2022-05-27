@@ -60,10 +60,7 @@ module.exports = function (req, res, url) {
 	}
 	res.setHeader('Content-Type', 'text/html; charset=UTF-8');
 	Object.assign(params.flashvars, query);
-	if (url.pathname == "/yourvideos") {
-		res.end(`${stuff.pages[url.pathname] || ""}`);
-	} else {
-		res.end(`<html><head>
+	res.end(`<html><head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <link rel="dns-prefetch" href="https://d2bm7x1jqouzel.cloudfront.net">
@@ -987,6 +984,5 @@ src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAARAQAABAAQRFNJRw
 <script type="text/javascript" id="">!function(b,e,f,g,a,c,d){b.fbq||(a=b.fbq=function(){a.callMethod?a.callMethod.apply(a,arguments):a.queue.push(arguments)},b._fbq||(b._fbq=a),a.push=a,a.loaded=!0,a.version="2.0",a.queue=[],c=e.createElement(f),c.async=!0,c.src=g,d=e.getElementsByTagName(f)[0],d.parentNode.insertBefore(c,d))}(window,document,"script","//connect.facebook.net/en_US/fbevents.js");fbq("init","784667875001149");fbq("track","PageView");</script>
 <noscript>&lt;img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=784667875001149&amp;amp;ev=PageView&amp;amp;noscript=1"&gt;</noscript>
 </body></html>`);
-	}
 	return true;
 }
