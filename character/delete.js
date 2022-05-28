@@ -1,3 +1,4 @@
+/* i am afraid that people will abuse this feature. so it won't be added.
 const loadPost = require('../request/post_body');
 const character = require('./main');
 
@@ -30,3 +31,5 @@ module.exports = function (req, res) {
 		default: return;
 	}
 }
+*/
+console.log(`Character Deleting Has Been Disabled Due To Fearness Of The Feature Being Abused.`);
