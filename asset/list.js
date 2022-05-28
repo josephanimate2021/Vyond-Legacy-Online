@@ -22,7 +22,7 @@ async function listAssets(data, makeZip) {
 			break;
 		}
 		case 'movie': {
-			files = Promise.all(movie.listStarter().map(starter.meta))
+			files = Promise.all(movie.listStarter().then => files.map(starter.meta));
 			xmlString = `${header}<ugc more="0">${files.map(v =>`
 			<movie id="${v.id}" path="/_SAVED/${
 				v.id}" numScene="1" title="${v.name}" thumbnail_url="/starter_thumbs/${
