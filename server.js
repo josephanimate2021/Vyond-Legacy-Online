@@ -21,7 +21,6 @@ const thm = require('./static/pagethemelist');
 const str = require('./starter/save');
 const stt = require('./starter/thmb');
 const svt = require('./static/page-lvmStaticRedirect');
-const svm = require('./starter/meta');
 const stu = require('./starter/upload');
 const mvl = require('./movie/load');
 const mvL = require('./movie/list');
@@ -66,7 +65,6 @@ const functions = [
 	lvp,
         stu,
 	svt,
-	svm,
 	thm
 ];
 
