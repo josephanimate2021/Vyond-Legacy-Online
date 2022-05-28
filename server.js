@@ -10,7 +10,6 @@ const ast = require('./asset/thmb');
 const chr = require('./character/redirect');
 const pmc = require('./character/premade');
 const chl = require('./character/load');
-const chd = require('./character/delete');
 const chs = require('./character/save');
 const chu = require('./character/upload');
 const stl = require('./static/load');
@@ -49,7 +48,6 @@ const functions = [
 	stp,
 	mvl,
 	mvL,
-	chd,
 	mvm,
 	mvs,
 	mvt,
