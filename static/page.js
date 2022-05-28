@@ -35,7 +35,7 @@ module.exports = function (req, res, url) {
 		redirectUrl = `${server}/lvm-static/offline-player?movieId=`;
 	}
 	switch (url.pathname) {
-		case '/studio': {
+		case '/videomaker/full/editcheck/': {
                         let presave = query.movieId && query.movieId.startsWith('m') ? query.movieId :
 				`m-${fUtil[query.noAutosave ? 'getNextFileId' : 'fillNextFileId']('movie-', '.xml')}`;
 			attrs = {
@@ -55,31 +55,48 @@ module.exports = function (req, res, url) {
 			sessions.set({ movieId: presave }, req);
 			break;
                 }
+		case '/videomaker/full/': {
+			let presave = query.movieId && query.movieId.startsWith('m') ? query.movieId :
+				`m-${fUtil[query.noAutosave ? 'getNextFileId' : 'fillNextFileId']('movie-', '.xml')}`;
+			attrs = {
+				data: process.env.SWF_URL + '/go_full.swf',
+				type: 'application/x-shockwave-flash', width: '100%', height: '100%',
+			};
+			params = {
+				flashvars: {
+					'apiserver': '/', 'storePath': process.env.STORE_URL + '/<store>', 'isEmbed': 1, 'ctc': 'go',
+					'ut': ut, 'bs': 'default', 'appCode': 'go', 'page': '', 'siteId': 'go', 'lid': 13, 'isLogin': 'Y', 'retut': 1,
+					'clientThemePath': process.env.CLIENT_URL + '/<client_theme>', 'themeId': 'business', 'tlang': 'en_US',
+					'presaveId': presave, 'goteam_draft_only': 1, 'isWide': 1, 'movieId': '',
+					'animationPath': process.env.SWF_URL + '/',
+				},
+				allowScriptAccess: 'always',
+			};
+			sessions.set({ movieId: presave }, req);
+			break;
+		}
+
 		default:
 			return;
 	}
 	res.setHeader('Content-Type', 'text/html; charset=UTF-8');
 	Object.assign(params.flashvars, query);
-	res.end(`<html><head>
+	if (url.pathname == "/yourvideos") {
+		res.end(`${stuff.pages[url.pathname] || ""}`);
+	} else {
+		res.end(`<html><head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <link rel="dns-prefetch" href="https://d2bm7x1jqouzel.cloudfront.net">
 <link rel="dns-prefetch" href="//d3v4eglovri8yt.cloudfront.net">
-
 <title>The Video Maker from Vyond - Make a Video for YouTube!</title>
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <meta name="description" content="The Video Maker lets You make a video for YouTube for free! Drag &amp; drop or type &amp; go.  It's Fast, Fun, Easy and Free -  Vyond!">
 <meta property="og:site_name" content="Vyond">
 <meta property="fb:app_id" content="177116303202">
-
 <meta name="google-site-verification" content="K_niiTfCVi72gwvxK00O4NjsVybMutMUnc-ZnN6HUuA">
-
-
 <link href="https://josephanimate2021.github.io/fonts/1/sailec.css" rel="stylesheet" type="text/css">
 <link href="${server}/static/55910a7cd204c37c/go/css/common_combined.css.gz.css" rel="stylesheet" type="text/css">
-
 <link href="${server}/static/55910a7cd204c37c/go/css/studio.css.gz.css" rel="stylesheet" type="text/css">
 <link href="${server}/static/55910a7cd204c37c/go/css/video_voice_vendor.css.gz.css" rel="stylesheet" type="text/css">
 <link href="${server}/static/55910a7cd204c37c/go/css/worknote.css.gz.css" rel="stylesheet" type="text/css">
@@ -90,39 +107,32 @@ module.exports = function (req, res, url) {
 .top-nav.collapse {height: auto;overflow: visible;}
 </style>
 <![endif]-->
-
 <script type="text/javascript" src="https://pi.pardot.com/pd.js"></script><script type="text/javascript" async="" src="https://cdn.amplitude.com/libs/amplitude-4.1.1-min.gz.js"></script><script async="" src="//connect.facebook.net/en_US/fbevents.js"></script><script async="" src="//www.googletagmanager.com/gtm.js?id=GTM-TXV7MD"></script><script type="text/javascript" async="" src="https://ga.vyond.com/ajax/cookie_policy"></script><script type="text/javascript" async="" src="//munchkin.marketo.net/155/munchkin.js"></script><script type="text/javascript" async="" src="https://cdn.amplitude.com/libs/amplitude-4.1.1-min.gz.js"></script><script src="https://connect.facebook.net/signals/config/784667875001149?v=2.9.15&amp;r=stable" async=""></script><script async="" src="//connect.facebook.net/en_US/fbevents.js"></script><script type="text/javascript" async="" src="https://sjs.bizographics.com/insight.min.js"></script><script type="text/javascript" async="" src="//www.googleadservices.com/pagead/conversion_async.js"></script><script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script async="" src="//www.googletagmanager.com/gtm.js?id=GTM-TXV7MD"></script><script type="text/javascript" async="" src="https://ga.vyond.com/ajax/cookie_policy"></script><script>
 var srv_tz_os = -5, view_name = "go", user_cookie_name = "u_info";
 var user_role = 9;
 </script>
-
 <script src="${server}/static/55910a7cd204c37c/go/js/jquery/jquery-1.11.0.min.js.gz.js"></script>
 <script src="${server}/static/55910a7cd204c37c/go/js/bootstrap3/bootstrap.min.js.gz.js"></script>
 <script src="${server}/static/55910a7cd204c37c/go/js/bootstrap3/bootstrap-switch.min.js.gz.js"></script>
-
 <script src="${server}/static/55910a7cd204c37c/go/js/go2.js.gz.js"></script>
 <script src="${server}/static/55910a7cd204c37c/go/js/jquery/jquery.swfobject.min.js.gz.js"></script>
 <script src="${server}/static/55910a7cd204c37c/go/js/jquery/jquery.blockUI-2.66.0.js.gz.js"></script>
 <script src="${server}/static/55910a7cd204c37c/go/js/jquery/jquery.scrollTo.min.js.gz.js"></script>
 <script src="${server}/static/55910a7cd204c37c/go/js/app.js.gz.js"></script>
-
 <script src="${server}/static/55910a7cd204c37c/go/js/cookie.js.gz.js"></script>
 <script src="${server}/static/55910a7cd204c37c/go/js/Gettext.js.gz.js"></script>
 <script src="${server}/static/55910a7cd204c37c/go/js/email.js.gz.js"></script>
-
 <script type="text/javascript" src="${server}/static/55910a7cd204c37cc/go/js/../po/goserver_js-en_US.json.gz.json"></script>
 <script type="text/javascript">
 var I18N_LANG = 'en_US';
 var GT = new Gettext({'locale_data': json_locale_data});
 </script>
-
 <script src="${server}/static/55910a7cd204c37c/go/js/movie.js.gz.js"></script>
 <script src="${server}/static/55910a7cd204c37c/go/js/cookie.js.gz.js"></script>
 <script src="${server}/static/55910a7cd204c37c/go/js/studio.js.gz.js"></script>
 <script src="${server}/static/55910a7cd204c37c/go/js/jquery/jquery.tmpl.min.js.gz.js"></script>
 <script src="${server}/static/55910a7cd204c37c/go/js/lib/pako.min.js.gz.js"></script>
 <script src="${server}/static/55910a7cd204c37c/go/js/amplitude/go_amp.js.gz.js"></script>
-
 <!-- Vyond Cookie Consent -->
 <script>(function(v,y,o,n){v[n]=v[n]||[];
 var f=y.getElementsByTagName(o)[0],d=y.createElement(o);
@@ -131,26 +141,19 @@ d.type='text/javascript';d.async=true;d.src=
 f.parentNode.insertBefore(d,f);
 })(window,document,'script','_vyccq');</script>
 <!-- End Vyond Cookie Consent -->
-
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-TXV7MD');
-
 dataLayer.push({"userId":"0cf4CMw1ZNCk"});
 </script>
 <!-- Google Tag Manager -->
-
 <script>
-
 </script>
-
-
         <script src="${server}/static/55910a7cd204c37c/go/js/h5preview/media-controller.js.gz.js"></script>
         <script src="${server}/static/55910a7cd204c37c/go/js/h5preview/preview-player.js.gz.js"></script>
-
 <script type="text/javascript" async="" src="//munchkin.marketo.net/munchkin.js"></script><script src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/956549168/?random=1576454337808&amp;cv=9&amp;fst=1576454337808&amp;num=1&amp;guid=ON&amp;resp=GooglemKTybQhCsO&amp;u_h=900&amp;u_w=1600&amp;u_ah=870&amp;u_aw=1600&amp;u_cd=24&amp;u_his=7&amp;u_tz=-360&amp;u_java=false&amp;u_nplug=4&amp;u_nmime=6&amp;gtm=2wgc61&amp;sendb=1&amp;ig=1&amp;frm=0&amp;url=https%3A%2F%2Fga.vyond.com%2Fvideomaker%2Ffull%2Fbusiness-friendly&amp;ref=https%3A%2F%2Fga.vyond.com%2Fvideomaker&amp;tiba=The%20Video%20Maker%20from%20Vyond%20-%20Make%20a%20Video%20for%20YouTube!&amp;hn=www.googleadservices.com&amp;async=1&amp;rfmt=3&amp;fmt=4"></script><script type="text/javascript" async="" src="//munchkin.marketo.net/munchkin.js"></script></head>
 <body class="en_US has-user full_screen_studio studio-locked" style="">
 <script type="text/javascript">
@@ -158,26 +161,18 @@ if (self !== top) {
             jQuery('body').hide();
     }
 </script>
-
 <!-- Google Tag Manager (noscript) -->
 <noscript>&lt;iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TXV7MD"
 height="0" width="0" style="display:none;visibility:hidden"&gt;&lt;/iframe&gt;</noscript>
 <!-- End Google Tag Manager (noscript) -->
-
 <script type="text/javascript">
         jQuery.extend(CCStandaloneBannerAdUI, {"actionshopSWF":"https:\/\/d3v4eglovri8yt.cloudfront.net\/animation\/66453a3ba2cc5e1b\/actionshop.swf","apiserver":"http:\/\/ga.vyond.com\/","clientThemePath":"https:\/\/d3v4eglovri8yt.cloudfront.net\/static\/019b83797158fc0c\/<client_theme>","userId":"0cf4CMw1ZNCk"});
 </script>
-
 <div class="page-container">
-
-
 <!-- END OF HEADER -->
-
 <div style="position:relative;">
     <div id="studioBlock" style="height: 0px;"><!-- --></div>
-
     <div id="playerBlock"></div>
-
     <div style="display: none;">
     <div class="templates">
         <div class="studiotemplatebrowser">
@@ -222,12 +217,10 @@ function voiceBanner(bannerId) {
     var banner = $('#voice-vendor-' + bannerId);
     if (banner.length) {
         banner.click();
-
         window.open(banner.attr('href'), '_blank');
     }
 }
 </script>
-
     <div id="previewPlayerContainer" style="display: none;">
         <div class="preview-player" id="previewPlayer">
             <h2>Preview Video</h2>
@@ -271,11 +264,9 @@ function voiceBanner(bannerId) {
             <div class="buttons clearfix">
                 <button class="preview-button edit" type="button" onclick="switchBackToStudio();">Back to editing</button>
                 <button class="preview-button save" type="button" onclick="publishStudio();">Save Now</button>            </div>
-
             <a class="close_btn" href="#" onclick="switchBackToStudio(); return false;">×</a>
         </div>
     </div>
-
     <div class="video-tutorial" id="video-tutorial" style="display: none;">
         <div class="video-tutorial-body">
             <h2>&nbsp;</h2>
@@ -290,21 +281,16 @@ function voiceBanner(bannerId) {
         </div>
     </div>
 </div>
-
 <div style="display:none">
-
 </div>
-
     <script>
     function peformANextUrlRedirect() {
     window.location = "${redirectUrl}${params.flashvars.presaveId}";
     }
         interactiveTutorial.isShowTutorial = false;
-
         var hideHTMLBox = function() {
             window.close();
         };
-
         function tutorialStarted() {
         }
         function tutorialStep(sn) {
@@ -315,33 +301,25 @@ function voiceBanner(bannerId) {
                 url: '/ajax/tutorialStatus/completed'
             });
         }
-
         var enable_full_screen = true;
-
         var studio_data = {
             id: "Studio",
             swf: "${attrs.data}",
             width: "100%",
             height: "100%",
-
             align: "middle",
             allowScriptAccess: "always",
             allowFullScreen: "true",
             wmode: "window",
-
             hasVersion: "10.3"
         };
-
         if (!enable_full_screen) {
             studio_data.width  = 960;
             studio_data.height  = 630;
             resize_studio = false;
         }
-
         studio_data.flashvars = {"presaveId":"${params.flashvars.presaveId}","movieId":"${params.flashvars.movieId}","loadas":0,"asId":"","originalId":"","apiserver":"\/","storePath":"${params.flashvars.storePath}","clientThemePath":"${params.flashvars.clientThemePath}","animationPath":"${params.flashvars.animationPath}","userId":"0cf4CMw1ZNCk","username":"bakeryb40488","uemail":"bakeryb40488@gmail.com","numContact":"0","ut":${params.flashvars.ut},"ve":false,"isEmbed":0,"nextUrl":"javascript:peformANextUrlRedirect()","bgload":"${attrs.data}","lid":"13","ctc":"go","themeColor":"silver","tlang":"en_US","siteId":"13","templateshow":"false","forceshow":"false","appCode":"go","lang":"en","tmcc":4048901,"fb_app_url":"https:\/\/ga.vyond.com\/","is_published":"0","is_private_shared":"1","is_password_protected":false,"upl":1,"hb":"1","pts":"1","msg_index":"","ad":0,"has_asset_bg":1,"has_asset_char":0,"initcb":"studioLoaded","retut":0,"featured_categories":null,"s3base":"https:\/\/s3.amazonaws.com\/fs.goanimate.com\/,https:\/\/assets.vyond.com\/","st":"","uisa":0,"u_info":"OjI6elg5SnZCOUEyTHZiY2lhZGRXTm9Nd0ljVWhNbEpGaXJFdkpEdkltdEp6RWhrQ0VIbXZIVTBjRTlhUGZKMjJoVHVTUE5vZk1XYnFtSE1vZG5TeldyQVJNcDFmUFB2NDVtR0FTSlZZ","tm":"FIN","tray":"${params.flashvars.tray}","isWide":1,"newusr":1,"goteam_draft_only":0};
-
         var _ccad = null;
-
         function proceedWithFullscreenStudio() {
             // These should be executed only when we are really ready to show the studio
             window.onbeforeunload = function(e) {
@@ -353,12 +331,10 @@ function voiceBanner(bannerId) {
                 if (e && msg != null) {
                     e.returnValue = msg;
                 }
-
                 if (msg != null) {
                     return msg;
                 }
             };
-
             show_cc_ad = false;
             // CC template studio widget
             if (show_cc_ad) {
@@ -382,7 +358,6 @@ function voiceBanner(bannerId) {
                             });
                             logger.submit();
                             }
-
                             ccId = aid;
                             if (typeof ccId != undefined) {
                                 try {
@@ -394,21 +369,16 @@ function voiceBanner(bannerId) {
                         });
                 })();
             }
-
             show_voice_ad = true;
             $('#studio_container').append($('div.templates div.voice-vendor-ad').clone());
             if (show_voice_ad) {
                 showVoiceAdWidget();
             }
-
-
             $('div#studioBlock').css('height', '0px');
             $('#studio_holder').flash(studio_data);
             full_screen_studio();
-
             ajust_studio();
         }
-
         function hideCCWidget() {
             show_cc_ad = false;
             $('div.studiotemplatebrowser').css('display', 'none');
@@ -423,7 +393,6 @@ function voiceBanner(bannerId) {
             ajust_studio();
             return false;
         }
-
         function showVoiceAdWidget() {
             show_voice_ad = true;
             $('#studio_container div.voice-vendor-ad').css('display', 'block');
@@ -439,7 +408,6 @@ function voiceBanner(bannerId) {
             ajust_studio();
             return false;
         }
-
         function hideVoiceAdWidget() {
             show_voice_ad = false;
             $('#studio_container div.voice-vendor-ad').css('display', 'none');
@@ -453,7 +421,6 @@ function voiceBanner(bannerId) {
             ajust_studio();
             return false;
         }
-
         function showWorknoteWidget() {
             show_worknote = true;
             $('#studio_container div.studio-worknote').css('display', 'block');
@@ -468,42 +435,33 @@ function voiceBanner(bannerId) {
             ajust_studio();
             return false;
         }
-
         function hideWorknoteWidget() {
             show_worknote = false;
             $('#studio_container div.studio-worknote').css('display', 'none');
             ajust_studio();
             return false;
         }
-
         function toggleWorknoteContent() {
             $('#studio_container .studio-worknote').toggleClass('collapsed expand');
             ajust_studio();
             return false;
         }
-
         var studioApiReady = false;
         function studioLoaded() {
             studioApiReady = true;
             $(document).trigger('studioApiReady');
         };
-
         var studioWorknoteModule = null;
-
         var studioModule = null;
-
         var videoTutorial = null;
-
         $(document).ready(function() {
             if (enable_full_screen) {
-
                 if (!false) {
                     $('#studio_container').css('top', '0px');
                 }
                 $('#studio_container').show();
                 $('.site-footer').hide();
                 $('#studioBlock').css('height', '1800px');
-
                 if (false) {
                     checkCopyMovie('javascript:proceedWithFullscreenStudio()', '');
                 } else if (false) {
@@ -511,7 +469,6 @@ function voiceBanner(bannerId) {
                 } else {
                     proceedWithFullscreenStudio();
                 }
-
                 $(window).on('resize', function() {
                     ajust_studio();
                 });
@@ -520,18 +477,15 @@ function voiceBanner(bannerId) {
                         _ccad.refreshThumbs();
                     }
                 });
-
                 if (studioApiReady) {
                     var api = studioApi($('#studio_holder'));
                     api.bindStudioEvents();
                     studioModule = new StudioModule();
                 }
-
                 $('.ga-importer').prependTo($('#studio_container'));
             } else {
                 $('#studioBlock').flash(studio_data);
             }
-
             // Video Tutorial
             videoTutorial = new VideoTutorial($("#video-tutorial"));
         })
@@ -546,33 +500,26 @@ function voiceBanner(bannerId) {
             api.bindStudioEvents();
             studioModule = new StudioModule();
         })
-
     var previewPlayer = new PreviewPlayer("wss://preview.vyond.com", true),
         previewPlayerRetryCount = 5;
-
     previewPlayer.setVideoElement(document.getElementById('h5-preview-player'));
     previewPlayer.setMovieId('');
     previewPlayer.setUserAuthenticationToken('1:760a913514c85f012a4977b79b920687c0b33a7b268c26340021d6720a6ea026:y8X5juI1C+TKXDaGsW/6CLASVlqRtMZyE2rJVx2aUzc=');
     previewPlayer.setFromPptConversion(false);
     previewPlayer.connect();
-
 </script>
 <script>
 $("#previewPlayerContainer, #video-tutorial").hide();
-
 var movieDataXmlStr = null,
     filmXmlStr = null,
     previewStartFrame = 0;
-
 function checkBrowser() {
     return window.WebSocket && window.MediaSource;
 }
-
 function checkTheme(themeList) {
     if (themeList === undefined) {
         return true;
     }
-
     var themeCount = themeList.length,
         h5Themes = {
             'common' : true,
@@ -581,37 +528,29 @@ function checkTheme(themeList) {
             'whiteboard': true,
             'commoncraft': true
         };
-
     for (var i = 0; i < themeCount; i++) {
         if (h5Themes[themeList[i]] === undefined) {
             return false;
         }
     }
-
     return true;
 }
-
 function checkPreviewServer() {
     return previewPlayer._connectionState === PreviewPlayerConstants.STATE_READY;
 }
-
 function loadH5Preview() {
     if (filmXmlStr === null) {
         return;
     }
-
     $('#h5-playerdiv').data('previewPlayerControl').reset();
     previewPlayer.preview(filmXmlStr, previewStartFrame);
     $('#previewPlayer').addClass('using-h5');
 }
-
 function loadLegacyPreview() {
     if (movieDataXmlStr === null) {
         return;
     }
-
     pauseH5PreviewPlayer();
-
     savePreviewData(movieDataXmlStr);
     createPreviewPlayer("playerdiv", {
         height: 360,
@@ -630,55 +569,42 @@ function loadLegacyPreview() {
     });
     $('#previewPlayer').removeClass('using-h5');
 }
-
 function initPreviewPlayer(dataXmlStr, startFrame, containsChapter, themeList) {
     movieDataXmlStr = dataXmlStr;
     previewStartFrame = startFrame;
-
     filmXmlStr = dataXmlStr.split("<filmxml>")[1].split("</filmxml>")[0];
-
     if (typeof startFrame == 'undefined') {
         startFrame = 1;
     } else {
         startFrame = Math.max(1, parseInt(startFrame));
     }
-
     if (containsChapter) {
         $("#preview-alert-block").show();
     } else {
         $("#preview-alert-block").hide();
     }
-
     previewSceen();
-
     $("#previewPlayerContainer").show();
-
     var isThemeSupport = checkTheme(themeList);
-
     if (checkBrowser() && isThemeSupport && checkPreviewServer()) { // Preview with next
         loadH5Preview();
     } else {
         // fallback to legacy preview
         loadLegacyPreview();
-
         if (!checkPreviewServer() && (previewPlayerRetryCount > 0)) { // Retry on WebSocket connection problem
             previewPlayer.connect();
             previewPlayerRetryCount--;
         }
     }
 }
-
 function pauseH5PreviewPlayer() {
     $("#h5-preview-player").get(0).pause();
 }
-
 function switchBackToStudio() {
     try {
         ($("#previewPlayerContainer #Player").get(0) || {pause:function(){}}).pause();
     } catch (err) {};
-
     pauseH5PreviewPlayer();
-
     $("#previewPlayerContainer").hide();
     restoreStudio();
     document.getElementById("Studio").onExternalPreviewPlayerCancel();
@@ -687,9 +613,7 @@ function publishStudio() {
     try {
         ($("#previewPlayerContainer #Player").get(0) || {pause:function(){}}).pause();
     } catch (err) {};
-
     pauseH5PreviewPlayer();
-
     $("#previewPlayerContainer").hide();
     restoreStudio();
     document.getElementById("Studio").onExternalPreviewPlayerPublish();
@@ -698,22 +622,18 @@ function exitStudio(share) {
     loadedFullscreenStudio = false;
     location.href = 'javascript:peformANextUrlRedirect()';
 }
-
 function studioUpsellUpgrade() {
     $('#upsell-modal').modal('hide');
     restoreStudio();
     document.getElementById("Studio").onUpsellUpgrade();
 }
-
 function customFontBanner() {
     var plansAndPricingUrl = 'https://www.vyond.com/pricing';
     window.open(plansAndPricingUrl, '_blank');
 }
-
 window.addEventListener(PreviewPlayerEvent.ANIMATION_INCOMPATIBLE, function() {
     loadLegacyPreview();
 });
-
 VideoTutorial.tutorials.composition = {
     title: 'Composition Tutorial',
     wistiaId: 'nuy96pslyp',
@@ -723,7 +643,6 @@ VideoTutorial.tutorials.enterexit = {
     wistiaId: 'fvjsa3jnzc',
 }
 </script>
-
 <script id="importer-share-asset-tmpl" type="text/x-jquery-tmpl">
 <li class="share-asset clearfix">
     <div class="share-asset-selection">
@@ -743,7 +662,6 @@ VideoTutorial.tutorials.enterexit = {
     </div>
 </li>
 </script>
-
 <script id="importer-file-tmpl" type="text/x-jquery-tmpl">
 <li class="ga-importer-file clearfix fade">
     <div class="ga-importer-file-icon"><div class="ga-importer-file-progress-bar"><div class="upload-progress"></div></div></div>
@@ -765,7 +683,6 @@ VideoTutorial.tutorials.enterexit = {
     </div>
 </li>
 </script>
-
 <script id="importer-select-sound-tmpl" type="text/x-jquery-tmpl">
 <div class="dropdown">
 <a class="import-as-btn dropdown-toggle" data-toggle="dropdown" href="#">Import as <span class="caret"></span></a>
@@ -776,7 +693,6 @@ VideoTutorial.tutorials.enterexit = {
 </ul>
 </div>
 </script>
-
 <script id="importer-select-prop-tmpl" type="text/x-jquery-tmpl">
 <div class="dropdown">
 <a class="import-as-btn dropdown-toggle" data-toggle="dropdown" href="#">Import as <span class="caret"></span></a>
@@ -795,19 +711,14 @@ VideoTutorial.tutorials.enterexit = {
 ImporterFile.defaults.options.accept_mime = ["image\/png","image\/jpeg","image\/gif","image\/bmp","audio\/mpeg","audio\/wav","audio\/x-wav","audio\/vnd.wave","audio\/wave","audio\/mp3","audio\/mp4","audio\/ogg","audio\/vorbis","audio\/aac","audio\/m4a","audio\/x-m4a","video\/mp4","video\/mpeg4","video\/x-flv","video\/x-ms-wmv","application\/mp4"];
 ImporterFile.defaults.options.restricted_mime = ["font\/x-font-ttf","font\/vnd.ms-opentype"];
 </script>
-
 <script charset="ISO-8859-1" src="//fast.wistia.com/assets/external/E-v1.js" async=""></script>
-
 <script>
     (function() {
-
         'use strict';
-
         var studioMode = 'full',
             themeName = 'business',
             copiedId = '',
             editType = null;
-
         switch (studioMode) {
             case 'full':
                 editType = AMPLITUDE_EVENT_PROPERTIES.VM_NEW;
@@ -838,7 +749,6 @@ ImporterFile.defaults.options.restricted_mime = ["font\/x-font-ttf","font\/vnd.m
             });
         }
     }());
-
     // Amplitude interface for Flash player.
     function logAmplitudeEvent(eventName, eventProperties, userData) {
         if (typeof amplitude === 'object') {
@@ -852,21 +762,15 @@ ImporterFile.defaults.options.restricted_mime = ["font\/x-font-ttf","font\/vnd.m
         }
     }
 </script>
-
-
 <!-- FOOTER -->
-
-
 <div id="studio_container" style="top: 0px; width: 2238px; height: 1586px;"><div class="ga-importer">
     <div class="ga-importer-header">
         <form class="ga-importer-base-form" action="/ajax/saveUserProp" method="post">
             <a class="ga-importer-collapse" href="#" title="Collapse" onclick="hideImporter(); return false;">×</a>
-
             <div class="fileinputs">
                 <div class="importer-button file-trigger">SELECT FILES</div>
                 <input class="ga-importer-file-input" type="file" name="file" multiple="">
             </div>
-
             <span class="hints">
                 <i class="glyph-pro glyph-circle-question_mark"></i>
                 <div class="tooltip in" style="display:none;">
@@ -882,14 +786,12 @@ ImporterFile.defaults.options.restricted_mime = ["font\/x-font-ttf","font\/vnd.m
                     </div>
                 </div>
             </span>
-
             <input type="hidden" name="subtype" value="">
         </form>
     </div>
     <div class="ga-importer-content" style="height: 1536px;">
         <div class="ga-importer-start">
             <div class="ga-importer-start-draghere">Drag files here</div>
-
             <div class="ga-importer-instruction general">
                 <ul>
                     <li><strong>Maximum file size:</strong> 15MB</li>
@@ -952,23 +854,13 @@ ImporterFile.defaults.options.restricted_mime = ["font\/x-font-ttf","font\/vnd.m
             </ul>
         </div>
     </div></div>
-
 </div>
-
-
-
-
 <div id="offer_container">
 </div>
 <script type="text/javascript">
     </script>
-
 <script type="text/javascript">
-
 </script>
-
-
-
 <style id="wistia_18_style" type="text/css" class="wistia_injected_style">
 @font-face {
 font-family: 'WistiaPlayerOverpassNumbers';
@@ -984,5 +876,6 @@ src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAARAQAABAAQRFNJRw
 <script type="text/javascript" id="">!function(b,e,f,g,a,c,d){b.fbq||(a=b.fbq=function(){a.callMethod?a.callMethod.apply(a,arguments):a.queue.push(arguments)},b._fbq||(b._fbq=a),a.push=a,a.loaded=!0,a.version="2.0",a.queue=[],c=e.createElement(f),c.async=!0,c.src=g,d=e.getElementsByTagName(f)[0],d.parentNode.insertBefore(c,d))}(window,document,"script","//connect.facebook.net/en_US/fbevents.js");fbq("init","784667875001149");fbq("track","PageView");</script>
 <noscript>&lt;img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=784667875001149&amp;amp;ev=PageView&amp;amp;noscript=1"&gt;</noscript>
 </body></html>`);
+	}
 	return true;
 }
