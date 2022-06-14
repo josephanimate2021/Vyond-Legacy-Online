@@ -48,6 +48,11 @@ module.exports = function (req, res, url) {
                                         movie.deleteThumb(url.query.movieId);
 					return true;
 				}
+				case '/ajax/sendLog/': {
+					var id = url.query.movieId;
+					console.log(`Someone Needs Your Approval To Delete Movie ${id}. You Have To Take A Look At It First To Make Sure That It's Not Bad. If So, You Can Confront The Person Who Tried To Delete Movie ${id}.`);
+					return true;
+				}
 			}
 		}
 		default: return;
