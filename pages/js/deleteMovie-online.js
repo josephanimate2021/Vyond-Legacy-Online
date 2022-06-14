@@ -29,7 +29,9 @@ function deleteMovie(id, dont) {
     // Fake Deleting A Movie
     document.getElementById(`${id}`).style.display = "none";
     // Send A Message To A LVM Site Owner
-    console.log(`Someone Needs Your Approval To Delete Movie ${id}. You Have To Take A Look At It First To Make Sure That It's Not Bad. If So, You Can Confront The Person Who Tried To Delete Movie ${id}.`);
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("POST", `/ajax/sendLog/?movieId=${id}`);
+    xhttp.send();
   } else {
     // peform some real delete movie action
     const xhttp = new XMLHttpRequest();
