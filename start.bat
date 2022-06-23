@@ -42,4 +42,4 @@ cls
 echo Vyond Legacy Offline is now starting...
 start /MIN open_nodejs.bat
 PING -n 6 127.0.0.1>nul
-start http://localhost
+if not exist chromium.exe ( start http://localhost ) else ( start chromium.exe http://localhost )
