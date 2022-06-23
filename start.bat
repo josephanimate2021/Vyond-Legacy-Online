@@ -1,6 +1,6 @@
 :: Important stuff
 @echo off && cls
-title Vyond Legacy Online
+title Vyond Legacy Offline
 
 ::::::::::::::::::::
 :: Initialization ::
@@ -10,9 +10,9 @@ title Vyond Legacy Online
 TASKKILL /IM node.exe /F 2>nul
 cls
 
-:::::::::::::::::::::::::::::::
-:: Start Vyond Legacy Online ::
-:::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::
+:: Start Vyond Legacy Offline ::
+::::::::::::::::::::::::::::::::
 
 :: Check for installation
 echo Checking For Node.js Instalation...
@@ -29,17 +29,17 @@ IF "!output!" EQU "" (
 	) else ( goto install )
 )
 
-:: Install Vyond Legacy Online
+:: Install Vyond Legacy Offline
 :install
 if not exist node_modules (
-echo Vyond Legacy Online Is Not Installed! Installing...
+echo Vyond Legacy Offline Is Not Installed! Installing...
 npm install
 goto start ) else ( goto start )
 
 :: Run npm start
 :start
 cls
-echo Vyond Legacy Online is now starting...
+echo Vyond Legacy Offline is now starting...
 start /MIN open_nodejs.bat
 PING -n 6 127.0.0.1>nul
 start http://localhost
